@@ -1,0 +1,11 @@
+plugins{
+    id 'org.springframework.boot' version '2.0.3.RELEASE'
+}
+apply plugin: 'distribution'
+apply plugin: 'application'
+
+mainClassName = 'com.weenvoyer.weenvoyerbot.Application'
+
+dependencies {
+    compile project(":weenvoyerbot-service-contract")
+}
