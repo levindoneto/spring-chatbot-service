@@ -29,6 +29,6 @@ public class IntentEnpoint {
         // String ret = restTemplate.post(intentUrl, body, String.class)
         // return new IntentResponse(ret)
         String ret = "";
-        return null;
+        return new IntentResponse(ret.replaceAll("(?<![a-z])(@+[a-zA-Z0-9]+)+", ""));
     }
 }
