@@ -1,4 +1,4 @@
-package com.weenvoyer.weenvoyerbot;
+package com.weenvoyer.bot;
 
 import com.weenvoyer.arch.WeenvoyerServicesRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

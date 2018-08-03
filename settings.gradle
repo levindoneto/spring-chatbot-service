@@ -1,4 +1,4 @@
-rootProject.name = 'weenvoyerbot.service'
+rootProject.name = 'weenvoyerbot-service'
 include 'weenvoyerbot-service-app'
 include 'weenvoyerbot-service-contract'
 include 'weenvoyerbot-service-impl'
