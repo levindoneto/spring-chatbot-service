@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class IntentResponse {
 
     @JsonRawValue
-    private String lala;
+    private String response;
 }
