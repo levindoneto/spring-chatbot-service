@@ -15,7 +15,11 @@ public class RestConfig {
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
         messageConverter.setPrettyPrint(false);
         messageConverter.setObjectMapper(objectMapper);
-        restTemplate.getMessageConverters().removeIf(m -> m.getClass().getName().equals(MappingJackson2HttpMessageConverter.class.getName()));
+        restTemplate.getMessageConverters().removeIf(
+                m -> m.getClass()
+                      .getName()
+                      .equals(MappingJackson2HttpMessageConverter.class.getName())
+        );
         restTemplate.getMessageConverters().add(messageConverter);
         return restTemplate;
     }
