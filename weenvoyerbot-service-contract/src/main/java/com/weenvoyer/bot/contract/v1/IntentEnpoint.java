@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.weenvoyer.bot.contract.v1.facade.IntentFacade;
 import com.weenvoyer.bot.contract.v1.response.IntentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -12,9 +11,6 @@ import javax.ws.rs.core.MediaType;
 public class IntentEnpoint {
     @Autowired
     private IntentFacade intentFacade;
-
-    @Value("#{intent.api.host}")
-    private String intentUrl;
 
     @POST
     @Path("/intent")
