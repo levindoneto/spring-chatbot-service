@@ -8,3 +8,12 @@ buildscript {
 }
 
 apply plugin: 'com.weenvoyer.arch.buildconfig'
+
+allprojects {
+    configurations {
+        compile.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-jdbc'
+        compile.exclude group: 'com.zaxxer', module: 'HikariCP'
+        compile.exclude group: 'org.mybatis', module: 'mybatis'
+        compile.exclude group: 'org.mybatis', module: 'mybatis-spring'
+    }
+}

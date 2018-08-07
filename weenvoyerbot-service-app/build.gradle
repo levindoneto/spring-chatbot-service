@@ -4,7 +4,7 @@ plugins{
 apply plugin: 'distribution'
 apply plugin: 'application'
 
-mainClassName = 'com.weenvoyer.weenvoyerbot.Application'
+mainClassName = 'com.weenvoyer.bot.Application'
 
 dependencies {
     compile project(":weenvoyerbot-service-contract")
