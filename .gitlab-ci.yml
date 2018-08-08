@@ -1,0 +1,54 @@
+image: openjdk:8-jdk
+
+variables:
+ SERVICE_NAME: 'weenvoyerbot-service'
+ DEPLOY_PATH: '/home/weenvoyer/services/$SERVICE_NAME'
+ SERVICE_DIST_FILE_PATH: 'build/libs/*.jar'
+ APP_PORT: '5022'
+
+before_script:
+ - apt-get update
+ - apt-get install -y --no-install-recommends git openssh-client zip
+ - eval $(ssh-agent -s)
+ - echo "$SSH_PRIVATE_KEY" | ssh-add - > /dev/null
+ - mkdir -p ~/.ssh
+ - chmod 700 ~/.ssh
+
+stages:
+ - build_and_test
+ - deploy_homolog
+
+build_and_test:
+ stage: build_and_test
+ artifacts:
+  untracked: true
+ script:
+  - git clone https://gitlab.com/weenvoyer-team/arch.git
+  - cd arch 
+  - git checkout tags/version 1.0
+  - ./gradlew publish  && cd ..
+  - ./gradlew clean build
+
+deploy_homolog:
+ variables:
+  DEPLOY_HOST: 'weenvoyer@201.21.196.104'
+  DIST_FILE: '$SERVICE_NAME-distribution.zip'
+  DOCKER_IMAGE_NAME: '$SERVICE_NAME/java'
+  SPRING_ACTIVE_PROFILE: 'homolog'
+ stage: deploy_homolog
+ dependencies:
+  - build_and_test
+ script:
+  - ssh -o StrictHostKeyChecking=no $DEPLOY_HOST 'exit'
+  - ssh $DEPLOY_HOST "rm -rf $DEPLOY_PATH/*"
+  - ssh $DEPLOY_HOST "mkdir -p $DEPLOY_PATH/"
+  - zip -r $DIST_FILE Dockerfile $SERVICE_DIST_FILE_PATH
+  - scp $DIST_FILE $DEPLOY_HOST:$DEPLOY_PATH/
+  - ssh $DEPLOY_HOST "unzip $DEPLOY_PATH/$DIST_FILE -d $DEPLOY_PATH/"
+  - ssh $DEPLOY_HOST "rm $DEPLOY_PATH/$DIST_FILE"
+  - ssh $DEPLOY_HOST "docker system prune -f"
+  - ssh $DEPLOY_HOST "cd $DEPLOY_PATH/ && docker build -f Dockerfile -t $DOCKER_IMAGE_NAME ."
+  - ssh $DEPLOY_HOST "docker stop $SERVICE_NAME || true && docker rm $SERVICE_NAME || true && docker run -e PROFILE=$SPRING_ACTIVE_PROFILE -e APP_PORT=$APP_PORT --name $SERVICE_NAME -d -p $APP_PORT:$APP_PORT --restart always $DOCKER_IMAGE_NAME"
+  - echo "Deploy prod finished"
+ only:
+  - homolog 
