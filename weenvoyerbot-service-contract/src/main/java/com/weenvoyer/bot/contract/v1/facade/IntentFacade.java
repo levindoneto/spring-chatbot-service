@@ -19,34 +19,32 @@ public class IntentFacade {
      * @Parameter: Object with the request body.
      * @Return: Intent response.
      */
-    public IntentResponse intent(Object body) {
+    public IntentResponseObject intent(Object body) {
         IntentResponseObject response = intentClient.getIntentResponse(body);
-        return new IntentResponse(formatResponse(response));
+        return formatResponse(response);
     }
 
+    /* This formats the beginning of the output by removing all the symbols before the first letter or number.
+     * @Parameter: String with the output.
+     * @Return: String with the formatted output.
+     */
     private String formatBeginningOutput(String output) {
         String outputBeginningFormatted = output.replaceAll("^[^a-zA-Z0-9]*", "");
         outputBeginningFormatted = outputBeginningFormatted.substring(0,1).toUpperCase() + outputBeginningFormatted.substring(1);
         return outputBeginningFormatted.trim();
     }
 
-        /* This formats the response from  Intent by removing all the @String which
+    /* This formats the response from  Intent by removing all the @String which
      * do not have any character on the left side of the at.
-     * @Parameter: String with the intent response.
-     * @Return: String with the formatted intent response.
+     * @Parameter: IntentResponseObject with the intent response.
+     * @Return: IntentResponseObject with the formatted intent response.
      */
-    private String formatResponse(IntentResponseObject response) {
+    private IntentResponseObject formatResponse(IntentResponseObject response) {
         // Object.output -> String
         String output = response.getOutput().replaceAll("(?<![a-z])(@+[a-zA-Z0-9]+)+", "");
-
-        // Object.output = formatted output
+        // Object.output <- formatted output
         response.setOutput(formatBeginningOutput(output));
 
-        // Object -> JSON response
-
-
-
-        return response.toString();
+        return response;
     }
-
 }

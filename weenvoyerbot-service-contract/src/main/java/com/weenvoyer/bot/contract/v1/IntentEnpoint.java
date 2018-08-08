@@ -1,5 +1,6 @@
 package com.weenvoyer.bot.contract.v1;
 
+import com.weenvoyer.bot.contract.v1.response.IntentResponseObject;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.weenvoyer.bot.contract.v1.facade.IntentFacade;
 import com.weenvoyer.bot.contract.v1.response.IntentResponse;
@@ -16,7 +17,7 @@ public class IntentEnpoint {
     @Path("/intent")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public IntentResponse intent(@RequestBody Object body){
+    public IntentResponseObject intent(@RequestBody Object body){
         return intentFacade.intent(body);
     }
 }
