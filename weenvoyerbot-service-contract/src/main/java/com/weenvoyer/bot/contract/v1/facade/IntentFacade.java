@@ -26,7 +26,7 @@ public class IntentFacade {
 
     private String formatBeginningOutput(String output) {
         String outputBeginningFormatted = output.replaceAll("^[^a-zA-Z0-9]*", "");
-        outputBeginningFormatted = outputBeginningFormatted.substring(0,1).toUpperCase() + output.substring(1);
+        outputBeginningFormatted = outputBeginningFormatted.substring(0,1).toUpperCase() + outputBeginningFormatted.substring(1);
         return outputBeginningFormatted.trim();
     }
 
