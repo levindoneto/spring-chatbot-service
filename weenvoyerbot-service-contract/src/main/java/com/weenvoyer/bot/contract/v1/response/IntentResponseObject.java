@@ -16,4 +16,3 @@ public class IntentResponseObject {
     private String output;
     private Map<String, Object> context;
 }
-

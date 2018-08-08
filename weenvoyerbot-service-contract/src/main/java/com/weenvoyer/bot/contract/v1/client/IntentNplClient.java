@@ -1,5 +1,6 @@
 package com.weenvoyer.bot.contract.v1.client;
 
+import com.weenvoyer.bot.contract.v1.response.IntentResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,8 +18,8 @@ public class IntentNplClient {
      * @Parameter: Object with the request body.
      * @Return: String response.
      */
-    public String getIntentResponse(Object body) {
-        return restTemplate.postForObject(url, body, String.class);
+    public IntentResponseObject getIntentResponse(Object body) {
+        return restTemplate.postForObject(url, body, IntentResponseObject.class);
     }
 
 }
