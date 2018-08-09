@@ -6,8 +6,6 @@ ENV TZ=America/Sao_Paulo
 
 USER root
 
-RUN apk add --no-cache bash tzdata
-
 COPY . /user/src/app
 WORKDIR /user/src/app
 
