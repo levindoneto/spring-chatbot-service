@@ -23,11 +23,10 @@ build_and_test:
  artifacts:
   untracked: true
  script:
-  - git clone https://gitlab.com/weenvoyer-team/arch.git
-  - cd arch 
-  - git checkout tags/version 1.0
-  - ./gradlew publish  && cd ..
-  - ./gradlew clean build
+ - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/weenvoyer-team/arch.git
+ - cd arch && git checkout tags/v1.0 && ./gradlew clean install && cd ..
+ - ./gradlew clean build
+
 
 deploy_homolog:
  variables:
