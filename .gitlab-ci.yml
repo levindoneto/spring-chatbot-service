@@ -3,7 +3,7 @@ image: openjdk:8-jdk
 variables:
  SERVICE_NAME: 'weenvoyerbot-service'
  DEPLOY_PATH: '/home/weenvoyer/services/$SERVICE_NAME'
- SERVICE_DIST_FILE_PATH: 'build/libs/*.jar'
+ SERVICE_DIST_FILE_PATH: '/weenvoyerbot-service-app/build/libs/*.jar'
  APP_PORT: '5022'
 
 before_script:
