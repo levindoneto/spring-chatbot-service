@@ -6,13 +6,14 @@ ENV TZ=America/Sao_Paulo
 
 USER root
 
-COPY . /user/src/app
-WORKDIR /user/src/app
+RUN apt-get install -y bash tzdata
 
-RUN tar -xvf /user/src/app/weenvoyerbot-service-app/build/distributions/*.tar
+RUN mkdir -p /user/src/app/
+COPY weenvoyerbot-service-app/build/libs/*.jar /user/src/app
+WORKDIR /user/src/app
 
 RUN export JAVA_OPTS="-server -Xmx512m -Xms512m";
 
-ENTRYPOINT /user/src/app/weenvoyerbot-service-app/bin/weenvoyerbot-service-app --spring.profiles.active=$PROFILE --server.port=$APP_PORT
+ENTRYPOINT java -jar /user/src/app/*.jar --spring.profiles.active=$PROFILE --server.port=$APP_PORT
 
 EXPOSE $APP_PORT
