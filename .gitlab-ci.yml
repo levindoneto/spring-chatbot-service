@@ -48,8 +48,6 @@ deploy_homolog:
   - ssh $DEPLOY_HOST "cd $DEPLOY_PATH/ && docker build -f Dockerfile -t $DOCKER_IMAGE_NAME ."
   - ssh $DEPLOY_HOST "docker stop $SERVICE_NAME || true && docker rm $SERVICE_NAME || true && docker run -e PROFILE=$SPRING_ACTIVE_PROFILE -e APP_PORT=$APP_PORT --name $SERVICE_NAME -d -p $APP_PORT:$APP_PORT --restart always $DOCKER_IMAGE_NAME"
   - echo "Deploy homolog finished"
-  - ssh $DEPLOY_HOST "docker ps"
-  - ssh $DEPLOY_HOST "docker logs --tail=200 -f weenvoyerbot-service"
 
  only:
   - homolog 
