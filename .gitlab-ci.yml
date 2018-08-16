@@ -3,7 +3,7 @@ image: openjdk:8-jdk
 variables:
  SERVICE_NAME: 'weenvoyerbot-service'
  DEPLOY_PATH: '/home/weenvoyer/services/$SERVICE_NAME'
- SERVICE_DIST_FILE_PATH: '/weenvoyerbot-service-app/build/libs/*.jar'
+ SERVICE_DIST_FILE_PATH: 'weenvoyerbot-service-app/build/libs/weenvoyerbot-service-app.jar'
  APP_PORT: '5022'
 
 before_script:
@@ -27,11 +27,10 @@ build_and_test:
  - cd arch && git checkout tags/v1.0 && ./gradlew clean install && cd ..
  - ./gradlew clean build
 
-
 deploy_homolog:
  variables:
   DEPLOY_HOST: 'weenvoyer@201.21.196.104'
-  DIST_FILE: '$SERVICE_NAME-distribution.zip'
+  DIST_FILE: 'weenvoyerbot-service-app.jar'
   DOCKER_IMAGE_NAME: '$SERVICE_NAME/java'
   SPRING_ACTIVE_PROFILE: 'homolog'
  stage: deploy_homolog
@@ -44,10 +43,10 @@ deploy_homolog:
   - zip -r $DIST_FILE Dockerfile $SERVICE_DIST_FILE_PATH
   - scp $DIST_FILE $DEPLOY_HOST:$DEPLOY_PATH/
   - ssh $DEPLOY_HOST "unzip $DEPLOY_PATH/$DIST_FILE -d $DEPLOY_PATH/"
-  - ssh $DEPLOY_HOST "rm $DEPLOY_PATH/$DIST_FILE"
+  - ssh $DEPLOY_HOST "rm -f $SERVICE_NAME/weenvoyerbot-service-app.jar"
   - ssh $DEPLOY_HOST "docker system prune -f"
   - ssh $DEPLOY_HOST "cd $DEPLOY_PATH/ && docker build -f Dockerfile -t $DOCKER_IMAGE_NAME ."
   - ssh $DEPLOY_HOST "docker stop $SERVICE_NAME || true && docker rm $SERVICE_NAME || true && docker run -e PROFILE=$SPRING_ACTIVE_PROFILE -e APP_PORT=$APP_PORT --name $SERVICE_NAME -d -p $APP_PORT:$APP_PORT --restart always $DOCKER_IMAGE_NAME"
-  - echo "Deploy prod finished"
+  - echo "Deploy homolog finished"
  only:
   - homolog 
