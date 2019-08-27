@@ -1,3 +1,3 @@
-# weenvoyerbot-service
+# spring-chatbot-service
 
-WeEnvoyer Bot Service
+Service that implements a chatbot with NLP and Spring Boot.
